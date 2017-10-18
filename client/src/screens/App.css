@@ -1,0 +1,268 @@
+@keyframes shake {
+  from,
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+@keyframes tada {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  10%,
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+  }
+
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+  }
+
+  40%,
+  60%,
+  80% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.FullScreen {
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 300;
+  font-size: 25px;
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 768px) {
+  .FullScreen {
+    flex-direction: row;
+  }
+}
+
+.Overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.8;
+  visibility: visible;
+  z-index: 1;
+  transition: opacity 0.3s, visibility 0.3s;
+  font-size: 2.5em;
+  color: #fff;
+  text-align: center;
+}
+
+@media only screen and (min-width: 768px) {
+  .Overlay {
+    font-size: 3em;
+  }
+}
+
+.Shell {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.Sidebar {
+  flex: initial;
+  width: 100%;
+  background-color: #2f333b;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+@media only screen and (min-width: 768px) {
+  .Sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    max-height: none;
+    justify-content: space-between;
+  }
+}
+
+.Sidebar div {
+  padding-bottom: 5px;
+}
+
+.Sidebar a {
+  color: #29abe2;
+  text-decoration: none;
+}
+
+.Description {
+  padding-left: 25px;
+  padding-right: 25px;
+  font-size: 0.7em;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  margin-bottom: 15px;
+}
+
+.Description p {
+  margin-bottom: 10px;
+}
+
+.PoweredBy {
+  font-size: 0.6em;
+  text-align: center;
+}
+
+.Sponsors {
+  border-top: solid 1px rgba(255, 255, 255, 0.1);
+  margin-top: 10px;
+  padding-top: 15px;
+}
+
+.Overlay--Hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.Highscore {
+  flex: initial;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Highscore__Title {
+  font-size: 0.7em;
+}
+
+.Highscore__Value {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+  font-size: 1.5em;
+}
+
+.Content__Container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.Content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 80%;
+}
+
+.Level {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: initial;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+  color: #09f;
+  border: 3px solid #09f;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.Level__Number {
+  /* Intentionally left blank */
+}
+
+.Question {
+  flex: 1;
+  margin-top: 49px;
+  margin-bottom: 70px;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.Answer {
+  flex: initial;
+  border-bottom: 3px solid #09f;
+  margin-bottom: 100px;
+  color: #09f;
+  width: 95%;
+  max-width: 720px;
+}
+
+.Answer--Wrong {
+  border-bottom: 3px solid #f00;
+  color: #f00;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: shake;
+}
+
+.Answer--Correct {
+  border-bottom: 3px solid #0f0;
+  color: #0f0;
+}
+
+.Answer input {
+  background-color: #000;
+  color: inherit;
+  font-size: 1em;
+  border: none;
+  text-align: center;
+  padding: 7px;
+  width: calc(100% - 32px);
+}
+
+.Answer input:focus {
+  outline: none;
+}
+
+.Answer .Submit {
+  border: none;
+  background-color: #000;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1em;
+}
