@@ -2,6 +2,8 @@
 
 wolkenkit-nevercompletedgame is a wolkenkit implementation of [nevercompletedgame.com](https://www.nevercompletedgame.com/).
 
+![teaser](images/teaser.gif "teaser")
+
 ## What is wolkenkit?
 
 > wolkenkit is a CQRS and event-sourcing framework for JavaScript and Node.js. wolkenkit uses an event-driven model based on DDD to setup an API for your business in no time. This way, wolkenkit bridges the language gap between your domain and technology.
