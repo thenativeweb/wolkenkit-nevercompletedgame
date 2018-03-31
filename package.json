@@ -5,7 +5,7 @@
   "wolkenkit": {
     "application": "ncg",
     "runtime": {
-      "version": "1.2.0"
+      "version": "latest"
     },
     "environments": {
       "default": {
@@ -23,7 +23,7 @@
     }
   },
   "dependencies": {
-    "wolkenkit-command-tools": "1.0.0"
+    "wolkenkit-command-tools": "3.0.0"
   },
   "devDependencies": {
     "roboter": "0.15.4",
