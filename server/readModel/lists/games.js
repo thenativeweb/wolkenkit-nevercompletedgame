@@ -6,7 +6,7 @@ const fields = {
   isCompleted: { initialState: false }
 };
 
-const when = {
+const projections = {
   'playing.game.opened' (games, event) {
     games.add({
       level: event.data.level,
@@ -34,4 +34,4 @@ const when = {
   }
 };
 
-module.exports = { fields, when };
+module.exports = { fields, projections };

@@ -5,7 +5,7 @@ const fields = {
   value: { initialState: 0 }
 };
 
-const when = {
+const projections = {
   async 'playing.game.opened' (statistics) {
     try {
       await statistics.readOne({ where: { key: 'highscore' }});
@@ -22,4 +22,4 @@ const when = {
   }
 };
 
-module.exports = { fields, when };
+module.exports = { fields, projections };
