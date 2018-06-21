@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "wolkenkit-nevercompletedgame-client is the frontend for wolkenkit-nevercompletedgame.",
   "private": true,
+  "scripts": {
+    "analyse-styles": "npx stylelint \"src/**/*.css\"",
+    "build": "NODE_ENV=production npx webpack",
+    "serve": "npx webpack-dev-server"
+  },
   "dependencies": {},
   "devDependencies": {
     "babel-loader": "7.1.2",
@@ -20,8 +25,7 @@
     "processenv": "0.1.1",
     "react": "16.0.0",
     "react-dom": "16.0.0",
-    "roboter": "0.15.4",
-    "roboter-server": "0.15.4",
+    "roboter": "1.0.4",
     "style-loader": "0.19.0",
     "stylelint": "8.2.0",
     "stylelint-config-standard": "17.0.0",

@@ -5,25 +5,21 @@ const fields = {
   value: { initialState: 0 }
 };
 
-const when = {
-  'playing.game.opened' (statistics, event, mark) {
-    statistics.readOne({ where: { key: 'highscore' }}).
-      failed(() => {
-        statistics.add({ key: 'highscore' });
-        mark.asDone();
-      }).
-      finished(() => {
-        mark.asDone();
-      });
+const projections = {
+  async 'playing.game.opened' (statistics) {
+    try {
+      await statistics.readOne({ where: { key: 'highscore' }});
+    } catch (ex) {
+      statistics.add({ key: 'highscore' });
+    }
   },
 
-  'playing.game.succeeded' (statistics, event, mark) {
+  'playing.game.succeeded' (statistics, event) {
     statistics.update({
       where: { key: 'highscore', value: { $lessThan: event.data.level }},
       set: { value: event.data.level }
     });
-    mark.asDone();
   }
 };
 
-module.exports = { fields, when };
+module.exports = { fields, projections };

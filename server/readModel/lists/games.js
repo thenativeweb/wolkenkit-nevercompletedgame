@@ -6,16 +6,15 @@ const fields = {
   isCompleted: { initialState: false }
 };
 
-const when = {
-  'playing.game.opened' (games, event, mark) {
+const projections = {
+  'playing.game.opened' (games, event) {
     games.add({
       level: event.data.level,
       question: event.data.question
     });
-    mark.asDone();
   },
 
-  'playing.game.succeeded' (games, event, mark) {
+  'playing.game.succeeded' (games, event) {
     games.update({
       where: { id: event.aggregate.id },
       set: {
@@ -23,18 +22,16 @@ const when = {
         question: event.data.nextQuestion
       }
     });
-    mark.asDone();
   },
 
-  'playing.game.completed' (games, event, mark) {
+  'playing.game.completed' (games, event) {
     games.update({
       where: { id: event.aggregate.id },
       set: {
         isCompleted: true
       }
     });
-    mark.asDone();
   }
 };
 
-module.exports = { fields, when };
+module.exports = { fields, projections };

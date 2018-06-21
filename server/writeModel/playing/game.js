@@ -24,27 +24,26 @@ const initialState = {
 const commands = {
   open: [
     only.ifNotExists(),
-    (game, command, mark) => {
+    game => {
       const level = 1,
             question = riddles[level - 1].question;
 
       game.events.publish('opened', { level, question });
-      mark.asDone();
     }
   ],
 
   guess: [
     only.ifExists(),
-    only.ifValidatedBy({
+    only.ifCommandValidatedBy({
       type: 'object',
       properties: {
         answer: { type: 'string', minLength: 0 }
       },
       required: [ 'answer' ]
     }),
-    (game, command, mark) => {
+    (game, command) => {
       if (game.state.isCompleted) {
-        return mark.asRejected('Game has already been completed.');
+        return command.reject('Game has already been completed.');
       }
 
       const level = game.state.level;
@@ -56,7 +55,7 @@ const commands = {
       if (isAnswerWrong) {
         game.events.publish('failed');
 
-        return mark.asDone();
+        return;
       }
 
       const nextLevel = level + 1;
@@ -66,13 +65,12 @@ const commands = {
         game.events.publish('succeeded', { level });
         game.events.publish('completed');
 
-        return mark.asDone();
+        return;
       }
 
       const nextQuestion = riddles[nextLevel - 1].question;
 
       game.events.publish('succeeded', { level, nextLevel, nextQuestion });
-      mark.asDone();
     }
   ]
 };
