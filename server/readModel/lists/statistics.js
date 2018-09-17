@@ -7,11 +7,14 @@ const fields = {
 
 const projections = {
   async 'playing.game.opened' (statistics) {
-    try {
-      await statistics.readOne({ where: { key: 'highscore' }});
-    } catch (ex) {
-      statistics.add({ key: 'highscore' });
-    }
+    // If the highscore value is not yet present, add it. Otherwise, perform a
+    // no-op update.
+    statistics.add({
+      key: 'highscore'
+    }).orUpdate({
+      where: { key: 'highscore' },
+      set: { key: 'highscore' }
+    });
   },
 
   'playing.game.succeeded' (statistics, event) {
