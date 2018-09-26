@@ -11,10 +11,7 @@ const projections = {
     // no-op update.
     statistics.add({
       key: 'highscore'
-    }).orUpdate({
-      where: { key: 'highscore' },
-      set: { key: 'highscore' }
-    });
+    }).orDiscard();
   },
 
   'playing.game.succeeded' (statistics, event) {
