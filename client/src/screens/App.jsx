@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './App.css';
 import successWav from '../../static/success.wav';
 
-import { Icon, Product } from 'thenativeweb-ux';
+import { Brand, ThemeProvider } from 'thenativeweb-ux';
 
 class App extends React.Component {
   static handleError (err) {
@@ -191,11 +191,12 @@ class App extends React.Component {
               Have a look at the <a href='https://github.com/thenativeweb/wolkenkit-nevercompletedgame'>source code on GitHub</a>.
             </p>
           </div>
-          <div className={ styles.PoweredBy }>
-            <div>Powered by</div>
-            <div><a href='https://www.wolkenkit.io'><Product name='wolkenkit' size='m' /></a></div>
+          <div>
+            <ThemeProvider theme='wolkenkit'>
+              <Brand.PoweredBy product='wolkenkit' />
+            </ThemeProvider>
             <div className={ styles.Sponsors }>
-              Made with <Icon name='heart' color='highlight' size='xs' type='inline' /> by <a className={ styles.Sponsor } href='https://www.thenativeweb.io'>the native web</a>.
+              <Brand.MadeBy />
             </div>
           </div>
         </div>

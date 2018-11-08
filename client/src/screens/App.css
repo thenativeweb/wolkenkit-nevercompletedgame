@@ -51,7 +51,6 @@
 .FullScreen {
   display: flex;
   flex-direction: column;
-
   position: absolute;
   left: 0;
   top: 0;
@@ -98,7 +97,6 @@
 
 .Shell {
   flex: 1;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -143,11 +141,6 @@
 
 .Description p {
   margin-bottom: 10px;
-}
-
-.PoweredBy {
-  font-size: 0.6em;
-  text-align: center;
 }
 
 .Sponsors {

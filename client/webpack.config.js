@@ -1,8 +1,8 @@
 const path = require('path');
 
 const CompressionPlugin = require('compression-webpack-plugin'),
-      ExtractTextPlugin = require('extract-text-webpack-plugin'),
       HtmlWebpackPlugin = require('html-webpack-plugin'),
+      MiniCssExtractPlugin = require('mini-css-extract-plugin'),
       processenv = require('processenv'),
       webpack = require('webpack');
 
@@ -13,63 +13,18 @@ const paths = {
   build: path.join(__dirname, 'build')
 };
 
-const getDevToolFor = function (environment) {
-  switch (environment) {
-    case 'production':
-      return undefined;
-    default:
-      return 'cheap-module-source-map';
-  }
-};
-
-const getStyleLoadersFor = function (environment) {
-  switch (environment) {
-    case 'production':
-      return ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: 'wk-[local]--[hash:base64:5]'
-            }
-          },
-          'postcss-loader'
-        ]
-      });
-    default:
-      return [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            modules: true,
-            importLoaders: 1,
-            localIdentName: 'wk-[local]--[hash:base64:5]'
-          }
-        },
-        'postcss-loader'
-      ];
-  }
-};
-
 const getPluginsFor = function (environment) {
   switch (environment) {
     case 'production':
       return [
         new webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify('production'),
-          'process.env.API_HOST': processenv('API_HOST') && JSON.stringify(processenv('API_HOST')),
-          'process.env.API_PORT': processenv('API_PORT'),
-          'process.env.AUTH_IDENTITY_PROVIDER_URL': processenv('AUTH_IDENTITY_PROVIDER_URL') && JSON.stringify(processenv('AUTH_IDENTITY_PROVIDER_URL')),
-          'process.env.AUTH_CLIENT_ID': processenv('AUTH_CLIENT_ID') && JSON.stringify(processenv('AUTH_CLIENT_ID'))
+          'process.env.NODE_ENV': JSON.stringify('production')
         }),
         new CompressionPlugin(),
-        new ExtractTextPlugin('style.css'),
+        new MiniCssExtractPlugin({ filename: 'style.css' }),
         new HtmlWebpackPlugin({
           template: path.join(paths.src, 'index.ejs'),
+          nodeEnv,
           minify: {
             collapseWhitespace: true,
             removeComments: true,
@@ -81,24 +36,17 @@ const getPluginsFor = function (environment) {
       return [
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-          template: path.join(paths.src, 'index.ejs')
+          template: path.join(paths.src, 'index.ejs'),
+          nodeEnv
         })
       ];
   }
 };
 
 const configuration = {
-  devtool: getDevToolFor(nodeEnv),
+  devtool: nodeEnv !== 'production' ? 'cheap-module-source-map' : undefined,
   context: paths.src,
-  devServer: {
-    contentBase: paths.src,
-    compress: true,
-    host: 'local.wolkenkit.io',
-    port: 8080
-  },
-  entry: [
-    './index.jsx'
-  ],
+  entry: './index.jsx',
   output: {
     path: paths.build,
     filename: 'index.js'
@@ -113,7 +61,18 @@ const configuration = {
       },
       {
         test: /\.css$/,
-        use: getStyleLoadersFor(nodeEnv)
+        use: [
+          nodeEnv === 'production' ?
+            MiniCssExtractPlugin.loader :
+            'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: 'wk-[local]--[hash:base64:5]'
+            }
+          }
+        ]
       },
       {
         test: /\.html$/,
@@ -135,7 +94,12 @@ const configuration = {
       }
     ]
   },
-  plugins: getPluginsFor(nodeEnv)
+  plugins: getPluginsFor(nodeEnv),
+  devServer: {
+    contentBase: paths.src,
+    host: 'local.wolkenkit.io',
+    port: 8080
+  }
 };
 
 module.exports = configuration;
