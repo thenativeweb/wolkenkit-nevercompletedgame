@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './App.css';
 import successWav from '../../static/success.wav';
 
-import { Brand, Icon } from 'wolkenkit-ux';
+import { Icon, Product } from 'thenativeweb-ux';
 
 class App extends React.Component {
   static handleError (err) {
@@ -193,7 +193,7 @@ class App extends React.Component {
           </div>
           <div className={ styles.PoweredBy }>
             <div>Powered by</div>
-            <div><a href='https://www.wolkenkit.io'><Brand size='s' /></a></div>
+            <div><a href='https://www.wolkenkit.io'><Product name='wolkenkit' size='m' /></a></div>
             <div className={ styles.Sponsors }>
               Made with <Icon name='heart' color='highlight' size='xs' type='inline' /> by <a className={ styles.Sponsor } href='https://www.thenativeweb.io'>the native web</a>.
             </div>

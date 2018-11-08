@@ -66,13 +66,8 @@ const getPluginsFor = function (environment) {
           'process.env.AUTH_IDENTITY_PROVIDER_URL': processenv('AUTH_IDENTITY_PROVIDER_URL') && JSON.stringify(processenv('AUTH_IDENTITY_PROVIDER_URL')),
           'process.env.AUTH_CLIENT_ID': processenv('AUTH_CLIENT_ID') && JSON.stringify(processenv('AUTH_CLIENT_ID'))
         }),
-        new CompressionPlugin({
-          asset: '[path].gz[query]',
-          algorithm: 'gzip',
-          test: /\.(css|js|html)$/
-        }),
+        new CompressionPlugin(),
         new ExtractTextPlugin('style.css'),
-        new webpack.optimize.UglifyJsPlugin(),
         new HtmlWebpackPlugin({
           template: path.join(paths.src, 'index.ejs'),
           minify: {
@@ -112,13 +107,9 @@ const configuration = {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [
-          paths.src,
-          path.join(__dirname, 'node_modules', 'wolkenkit-ux')
-        ],
-        use: {
-          loader: 'babel-loader'
-        }
+        use: [
+          { loader: 'babel-loader' }
+        ]
       },
       {
         test: /\.css$/,
