@@ -2,7 +2,6 @@ const path = require('path');
 
 const CompressionPlugin = require('compression-webpack-plugin'),
       HtmlWebpackPlugin = require('html-webpack-plugin'),
-      MiniCssExtractPlugin = require('mini-css-extract-plugin'),
       processenv = require('processenv'),
       webpack = require('webpack');
 
@@ -21,7 +20,6 @@ const getPluginsFor = function (environment) {
           'process.env.NODE_ENV': JSON.stringify('production')
         }),
         new CompressionPlugin(),
-        new MiniCssExtractPlugin({ filename: 'style.css' }),
         new HtmlWebpackPlugin({
           template: path.join(paths.src, 'index.ejs'),
           nodeEnv,
@@ -57,27 +55,6 @@ const configuration = {
         test: /\.jsx?$/,
         use: [
           { loader: 'babel-loader' }
-        ]
-      },
-      {
-        test: /\.css$/,
-        use: [
-          nodeEnv === 'production' ?
-            MiniCssExtractPlugin.loader :
-            'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              localIdentName: 'wk-[local]--[hash:base64:5]'
-            }
-          }
-        ]
-      },
-      {
-        test: /\.html$/,
-        use: [
-          { loader: 'file-loader', options: { name: '[name].[ext]' }}
         ]
       },
       {

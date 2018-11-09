@@ -1,10 +1,10 @@
 import classNames from 'classnames';
+import injectSheet from 'react-jss';
 import React from 'react';
+import Sidebar from './Sidebar.jsx';
+import styles from './App.styles.js';
 
-import styles from './App.css';
 import successWav from '../../static/success.wav';
-
-import { Brand, ThemeProvider } from 'thenativeweb-ux';
 
 class App extends React.Component {
   static handleError (err) {
@@ -136,32 +136,34 @@ class App extends React.Component {
   }
 
   render () {
-    const answerStyles = classNames(styles.Answer, {
-      [styles['Answer--Wrong']]: this.state.isAnswerWrong,
-      [styles['Answer--Correct']]: this.state.isAnswerCorrect
+    const { classes } = this.props;
+
+    const answerStyles = classNames(classes.Answer, {
+      [classes.AnswerIsWrong]: this.state.isAnswerWrong,
+      [classes.AnswerIsCorrect]: this.state.isAnswerCorrect
     });
 
-    const overlayStyles = classNames(styles.Overlay, {
-      [styles['Overlay--Hidden']]: !this.state.isCompleted
+    const overlayStyles = classNames(classes.Overlay, {
+      [classes.OverlayIsHidden]: !this.state.isCompleted
     });
 
     return (
-      <div className={ styles.FullScreen }>
+      <div className={ classes.FullScreen }>
         <div className={ overlayStyles }>
           Herzlichen Glückwunsch!
         </div>
 
-        <div className={ styles.Shell }>
-          <div className={ styles.Highscore }>
-            <div className={ styles.Highscore__Title }>Highscore</div>
-            <div className={ styles.Highscore__Value }>{this.state.highscore}</div>
+        <div className={ classes.Shell }>
+          <div className={ classes.Highscore }>
+            <div className={ classes.HighscoreTitle }>Highscore</div>
+            <div className={ classes.HighscoreValue }>{this.state.highscore}</div>
           </div>
-          <div className={ styles.Content__Container }>
-            <div className={ styles.Content }>
-              <div className={ styles.Level }>
-                <div className={ styles.Level__Number }>{this.state.level}</div>
+          <div className={ classes.ContentContainer }>
+            <div className={ classes.Content }>
+              <div className={ classes.Level }>
+                {this.state.level}
               </div>
-              <div className={ styles.Question }>{this.state.question}</div>
+              <div className={ classes.Question }>{this.state.question}</div>
               <div className={ answerStyles }>
                 <form onSubmit={ this.handleSubmit }>
                   <input
@@ -172,37 +174,16 @@ class App extends React.Component {
                     onChange={ this.handleChange }
                     type='text'
                     value={ this.state.answer }
-                  /> <button className={ styles.Submit }><i className='fa fa-paper-plane' /></button>
+                  /> <button className={ classes.AnswerSubmit }><i className='fa fa-paper-plane' /></button>
                 </form>
               </div>
             </div>
           </div>
         </div>
-        <div className={ styles.Sidebar }>
-          <div className={ styles.Description }>
-            <p>
-              This is a wolkenkit implementation
-              of <a href='https://www.nevercompletedgame.com/' target='_blank' rel='noopener noreferrer'>nevercompletedgame.com</a>.
-            </p>
-            <p>
-              Its purpose is being a sample application for learning domain-driven design, event-sourcing and CQRS.
-            </p>
-            <p>
-              Have a look at the <a href='https://github.com/thenativeweb/wolkenkit-nevercompletedgame'>source code on GitHub</a>.
-            </p>
-          </div>
-          <div>
-            <ThemeProvider theme='wolkenkit'>
-              <Brand.PoweredBy product='wolkenkit' />
-            </ThemeProvider>
-            <div className={ styles.Sponsors }>
-              <Brand.MadeBy />
-            </div>
-          </div>
-        </div>
+        <Sidebar />
       </div>
     );
   }
 }
 
-export default App;
+export default injectSheet(styles)(App);
