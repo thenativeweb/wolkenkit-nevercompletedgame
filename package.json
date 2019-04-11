@@ -14,7 +14,10 @@
           "allowAccessFrom": "*"
         },
         "fileStorage": {
-          "allowAccessFrom": "*"
+          "allowAccessFrom": "*",
+          "provider": {
+            "type": "fileSystem"
+          }
         },
         "node": {
           "environment": "development"
@@ -23,10 +26,10 @@
     }
   },
   "dependencies": {
-    "wolkenkit-command-tools": "3.0.0"
+    "wolkenkit-application-tools": "thenativeweb/wolkenkit-application-tools#2ec4cba0eac1491dfdbd2a210ab97b26c1877404"
   },
   "devDependencies": {
-    "roboter": "3.0.4"
+    "roboter": "4.0.4"
   },
   "repository": {
     "type": "git",

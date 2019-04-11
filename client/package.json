@@ -24,7 +24,7 @@
     "webpack": "4.25.1",
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.10",
-    "wolkenkit-client": "2.0.0"
+    "wolkenkit-client": "thenativeweb/wolkenkit-client-js#3e122e90848539ff8dcf9bb4cfc3786a763112f7"
   },
   "license": "AGPL-3.0"
 }

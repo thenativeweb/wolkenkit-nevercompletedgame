@@ -1,52 +1,55 @@
 'use strict';
 
-const { only } = require('wolkenkit-command-tools');
+const { forPublic, reject } = require('wolkenkit-application-tools');
 
 const riddles = require('../../shared/riddles.json');
 
 const initialState = {
   level: undefined,
-  isCompleted: false,
-  isAuthorized: {
-    commands: {
-      open: { forPublic: true },
-      guess: { forPublic: true }
-    },
-    events: {
-      opened: { forPublic: true },
-      succeeded: { forPublic: true },
-      failed: { forPublic: true },
-      completed: { forPublic: true }
-    }
-  }
+  isCompleted: false
 };
 
 const commands = {
-  open: [
-    only.ifNotExists(),
-    game => {
-      const level = 1,
-            question = riddles[level - 1].question;
+  open: {
+    schema: {
+      type: 'object',
+      properties: {},
+      required: [],
+      additionalProperties: false
+    },
+
+    isAuthorized: forPublic(),
+
+    handle (game, command) {
+      reject(command).if(game).exists();
+
+      const level = 1;
+      const { question } = riddles[level - 1];
 
       game.events.publish('opened', { level, question });
     }
-  ],
+  },
 
-  guess: [
-    only.ifExists(),
-    only.ifCommandValidatedBy({
+  guess: {
+    schema: {
       type: 'object',
       properties: {
         answer: { type: 'string', minLength: 0 }
       },
       required: [ 'answer' ]
-    }),
-    (game, command) => {
+    },
+
+    isAuthorized: forPublic(),
+
+    handle (game, command) {
+      reject(command).if(game).doesNotExist();
+
       if (game.state.isCompleted) {
         return command.reject('Game has already been completed.');
       }
 
-      const level = game.state.level;
+      const { level } = game.state;
+
       const guess = command.data.answer.trim().toLowerCase();
       const answer = riddles[level - 1].answer.toLowerCase();
 
@@ -72,22 +75,73 @@ const commands = {
 
       game.events.publish('succeeded', { level, nextLevel, nextQuestion });
     }
-  ]
+  }
 };
 
 const events = {
-  opened (game, event) {
-    game.setState({ level: event.data.level });
+  opened: {
+    schema: {
+      type: 'object',
+      properties: {
+        level: { type: 'number', minimum: 1 },
+        question: { type: 'string', minLength: 1 }
+      },
+      required: [ 'level', 'question' ],
+      additionalProperties: false
+    },
+
+    handle (game, event) {
+      game.setState({ level: event.data.level });
+    },
+
+    isAuthorized: forPublic()
   },
 
-  succeeded (game, event) {
-    game.setState({ level: event.data.nextLevel });
+  succeeded: {
+    schema: {
+      type: 'object',
+      properties: {
+        level: { type: 'number', minimum: 1 },
+        nextLevel: { type: 'number', minimum: 1 },
+        nextQuestion: { type: 'string', minLength: 1 }
+      },
+      required: [ 'level', 'nextLevel', 'nextQuestion' ],
+      additionalProperties: false
+    },
+
+    handle (game, event) {
+      game.setState({ level: event.data.nextLevel });
+    },
+
+    isAuthorized: forPublic()
   },
 
-  failed () {},
+  failed: {
+    schema: {
+      type: 'object',
+      properties: {},
+      required: [],
+      additionalProperties: false
+    },
 
-  completed (game) {
-    game.setState({ isCompleted: true });
+    handle () {},
+
+    isAuthorized: forPublic()
+  },
+
+  completed: {
+    schema: {
+      type: 'object',
+      properties: {},
+      required: [],
+      additionalProperties: false
+    },
+
+    handle (game) {
+      game.setState({ isCompleted: true });
+    },
+
+    isAuthorized: forPublic()
   }
 };
 

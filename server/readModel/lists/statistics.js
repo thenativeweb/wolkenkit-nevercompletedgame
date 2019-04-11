@@ -1,5 +1,7 @@
 'use strict';
 
+const { forPublic } = require('wolkenkit-application-tools');
+
 const fields = {
   key: { initialState: '' },
   value: { initialState: 0 }
@@ -22,4 +24,10 @@ const projections = {
   }
 };
 
-module.exports = { fields, projections };
+const queries = {
+  readItem: {
+    isAuthorized: forPublic()
+  }
+};
+
+module.exports = { fields, projections, queries };
