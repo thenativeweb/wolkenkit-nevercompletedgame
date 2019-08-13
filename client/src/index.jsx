@@ -4,7 +4,7 @@ import ReactDom from 'react-dom';
 import wolkenkit from 'wolkenkit-client';
 import { Application, ThemeProvider } from 'thenativeweb-ux';
 
-wolkenkit.connect({ host: 'local.wolkenkit.io', port: 3000 }).
+wolkenkit.connect({ host: 'localhost', port: 3000 }).
   then(api => {
     const app = (
       <ThemeProvider theme='wolkenkit'>

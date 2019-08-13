@@ -5,22 +5,23 @@
   "wolkenkit": {
     "application": "ncg",
     "runtime": {
-      "version": "latest"
+      "version": "3.1.0"
     },
     "environments": {
       "default": {
         "api": {
-          "port": 3000,
+          "certificate": "/server/keys/localhost",
+          "address": {
+            "host": "localhost",
+            "port": 3000
+          },
           "allowAccessFrom": "*"
-        },
-        "fileStorage": {
-          "allowAccessFrom": "*",
-          "provider": {
-            "type": "fileSystem"
-          }
         },
         "node": {
           "environment": "development"
+        },
+        "fileStorage": {
+          "allowAccessFrom": "*"
         }
       }
     }
