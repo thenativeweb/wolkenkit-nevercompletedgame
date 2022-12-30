@@ -30,7 +30,7 @@
     "wolkenkit-application-tools": "thenativeweb/wolkenkit-application-tools#2ec4cba0eac1491dfdbd2a210ab97b26c1877404"
   },
   "devDependencies": {
-    "roboter": "4.0.4"
+    "roboter": "13.2.1"
   },
   "repository": {
     "type": "git",
